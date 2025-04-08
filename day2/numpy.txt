@@ -1,0 +1,56 @@
+# Day 02 – NumPy Basics
+
+## ✅ What I did:
+- Learned array creation, slicing, and reshaping using NumPy.
+- Practiced array math and summary statistics.
+
+## 🧠 What I learned:
+- The difference between lists and NumPy arrays.
+- How vectorized operations are much faster than loops.
+
+## 🚧 Challenges:
+- Remembering which axis does what 😅
+- Debugging shape mismatches in dot products
+
+import numpy as np
+
+# 1D and 2D Arrays
+a = np.array([1, 2, 3])
+b = np.array([[1, 2], [3, 4]])
+
+# Predefined Arrays
+np.zeros((2, 3))     # 2x3 matrix of 0s
+np.ones((3, 3))      # 3x3 matrix of 1s
+np.eye(3)            # 3x3 Identity matrix
+np.arange(0, 10, 2)  # [0, 2, 4, 6, 8]
+np.linspace(0, 1, 5) # [0. 0.25 0.5 0.75 1.]
+
+#properties
+a.shape      # Dimensions (rows, columns)
+a.ndim       # Number of dimensions
+a.size       # Total number of elements
+a.dtype      # Data type of elements
+a.itemsize   # Size of each element in bytes
+a.nbytes     # Total size of the array in bytes
+
+#indexing and slicing
+a[0]         # First element
+a[1:3]       # Elements from index 1 to 2
+b[1, 0]      # Row 1, Column 0 in 2D array
+b[:, 1]      # All rows, column 1
+
+#array operations
+x + y        # Element-wise addition
+x * y        # Element-wise multiplication
+np.dot(x, y) # Dot product
+x.T          # Transpose
+
+#statistics
+np.mean(a)   # Average
+np.std(a)    # Standard deviation
+np.sum(a)    # Sum of elements
+np.max(a)    # Max value
+np.min(a)    # Min value
+np.argmax(a) # Index of max value
+np.random.rand(2, 2)             # Random floats in [0, 1)
+np.random.randint(0, 10, (3, 3)) # Random integers
