@@ -1,0 +1,84 @@
+# Day 03 – Pandas Basics & Exploration 🐼
+
+## ✅ What I did:
+- Practiced creating and exploring Pandas DataFrames.
+- Learned selection, filtering, slicing, and column manipulation.
+- Cleaned missing data using `fillna()` and `dropna()`.
+- Performed basic statistical analysis on numerical columns.
+- Sorted data based on different criteria.
+- Exported data to a CSV file.
+
+## 🧠 What I learned:
+- How Pandas makes data manipulation fast and easy.
+- Using `.describe()`, `.info()`, `.shape` for quick inspection.
+- Filtering rows using logical conditions.
+- Applying summary statistics like mean, median, std, etc.
+- Sorting by values to highlight trends or outliers.
+- Efficiently handling missing values with `NaN`.
+
+## 🚧 Challenges:
+- Remembering difference between `.iloc[]` and `.loc[]`
+- Got confused with axis values while dropping columns vs. rows
+- Needed practice chaining operations
+
+---
+
+## 🔧 Code Summary
+
+```python
+import pandas as pd
+import numpy as np
+
+# Create a DataFrame
+data = {
+    'Name': ['Anu', 'Raj', 'Neha', 'Arjun', 'Sana'],
+    'Age': [22, 24, 21, 23, 22],
+    'City': ['Hyd', 'Delhi', 'Mumbai', 'Hyd', 'Chennai'],
+    'Score': [88, 92, 95, 70, 85]
+}
+df = pd.DataFrame(data)
+
+# -----------------------------
+# 🔍 Inspect Data
+df.head()
+df.info()
+df.describe()
+
+# -----------------------------
+# 🎯 Filtering
+df[df['Score'] > 85]
+df[df['City'] == 'Hyd']
+
+# -----------------------------
+# ➕ Column Operations
+df['Pass'] = df['Score'] > 75
+
+# -----------------------------
+# 🧮 Statistical Operations
+df['Score'].mean()
+df['Score'].median()
+df['Score'].std()
+df['Score'].min()
+df['Score'].max()
+df['Score'].sum()
+df['Score'].count()
+df.corr(numeric_only=True)
+
+# -----------------------------
+# 📌 Sorting
+df.sort_values(by='Score', ascending=False)
+df.sort_values(by='Age')
+
+# -----------------------------
+# 🧹 Data Cleaning
+dirty_df = pd.DataFrame({
+    'Name': ['Anu', 'Raj', None, 'Arjun'],
+    'Age': [22, None, 21, 23],
+    'Score': [88, 92, 95, None]
+})
+cleaned_df = dirty_df.fillna(0)
+cleaned_df.dropna()
+
+# -----------------------------
+# 💾 Export to CSV
+df.to_csv('day3_cleaned_data.csv', index=False)
