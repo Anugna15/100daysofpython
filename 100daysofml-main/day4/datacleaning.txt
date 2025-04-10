@@ -1,0 +1,53 @@
+# 🌼 Day 04: In-depth Pandas – Statistics & Data Cleaning
+
+## ✅ Goals
+- Explore the Iris dataset
+- Perform statistical analysis without using group operations
+- Learn how to handle missing data (if any)
+- Clean and save the cleaned dataset
+
+
+## 📚 Dataset
+Used: **Iris Dataset** (`iris.csv`)
+
+
+## 🧪 Libraries Used
+```python
+import pandas as pd
+import numpy as np
+df = pd.read_csv("iris.csv")
+print(df.head())
+
+print(df.isnull().sum())  # Shows count of nulls per column
+
+df.fillna(0, inplace=True)  # Replaces all NaNs with 0
+
+df.dropna(inplace=True)  # Removes rows with any NaN
+df.to_csv("iris_cleaned.csv", index=False)
+
+
+# 📈 Advanced Statistical Operations
+
+# Central Tendency
+print("\n📌 Mean:\n", df.mean(numeric_only=True))
+print("\n📌 Median:\n", df.median(numeric_only=True))
+print("\n📌 Mode:\n", df.mode(numeric_only=True).iloc[0])
+
+# Spread
+print("\n📌 Variance:\n", df.var(numeric_only=True))
+print("\n📌 Standard Deviation:\n", df.std(numeric_only=True))
+
+# Min, Max & Range
+print("\n📌 Minimum:\n", df.min(numeric_only=True))
+print("\n📌 Maximum:\n", df.max(numeric_only=True))
+print("\n📌 Range:\n", df.max(numeric_only=True) - df.min(numeric_only=True))
+
+# Shape of Data
+print("\n📌 Dataset Shape (rows, columns):", df.shape)
+
+# Skewness & Kurtosis
+print("\n📌 Skewness:\n", df.skew(numeric_only=True))
+print("\n📌 Kurtosis:\n", df.kurt(numeric_only=True))
+
+# Correlation
+print("\n📌 Correlation Matrix:\n", df.corr(numeric_only=True))
