@@ -1,0 +1,83 @@
+# 🌸 Day 5: Exploratory Data Analysis (EDA) - Iris Dataset
+
+This project focuses on performing EDA using **Pandas**, **Matplotlib**, and **Seaborn** on the classic [Iris dataset](https://archive.ics.uci.edu/ml/datasets/iris). The aim is to understand the structure of the dataset, clean the data, and generate insightful visualizations.
+
+---
+
+## 📂 Dataset Info
+
+- **Features**:
+  - `sepal_length`
+  - `sepal_width`
+  - `petal_length`
+  - `petal_width`
+- **Target**: `species`
+
+---
+
+## 🧼 Data Cleaning + Stats + Visualizations
+
+```python
+# Importing required libraries
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Load the dataset
+df = pd.read_csv('iris.csv')
+
+# Display first 5 rows
+print("🔍 First 5 Rows:")
+print(df.head())
+
+# Check for null values
+print("\n🧼 Missing Values per Column:")
+print(df.isnull().sum())
+
+# Dataset info
+print("\n📊 Dataset Info:")
+print(df.info())
+
+# Descriptive statistics
+print("\n📈 Summary Statistics:")
+print(df.describe())
+
+# Clean Data (if nulls exist, replace with mean or drop — not needed here since no nulls)
+if df.isnull().values.any():
+    df.fillna(df.mean(numeric_only=True), inplace=True)
+    print("\n✅ Null values filled with column mean.")
+else:
+    print("\n✅ No missing values found!")
+
+# Save the cleaned data
+df.to_csv('iris_cleaned.csv', index=False)
+print("\n💾 Cleaned data saved as iris_cleaned.csv")
+
+# Plot species count
+print("\n📊 Species distribution:")
+print(df['species'].value_counts())
+sns.countplot(x='species', data=df)
+plt.title("Count of Each Species")
+plt.show()
+
+# Histograms
+df.hist(figsize=(10, 8), color='skyblue', edgecolor='black')
+plt.suptitle("Histogram of Numerical Features")
+plt.show()
+
+# Boxplot
+sns.boxplot(data=df, palette='Set2')
+plt.title("Boxplot of All Numerical Features")
+plt.show()
+
+# Pairplot
+sns.pairplot(df, hue='species')
+plt.suptitle("Pairplot with Species Hue", y=1.02)
+plt.show()
+
+# Correlation Heatmap
+corr = df.corr(numeric_only=True)
+sns.heatmap(corr, annot=True, cmap='coolwarm')
+plt.title("Correlation Heatmap")
+plt.show()
