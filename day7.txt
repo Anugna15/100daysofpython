@@ -1,0 +1,89 @@
+# Day 7: Feature Selection & Model Improvement using Wine Dataset
+
+## Overview
+In this session, we explored how to:
+- Load and understand the Wine dataset
+- Perform data preprocessing and feature selection
+- Build and evaluate a Linear Regression model
+- Visualize predictions and feature relationships
+
+---
+
+## Dataset
+We used the `load_wine()` dataset from `sklearn.datasets`, which includes:
+- 13 chemical features of wines
+- A target variable with 3 classes (wine types)
+
+---
+
+## Data Preprocessing
+
+### 1. Feature Selection (SelectKBest + f_regression)
+```python
+from sklearn.feature_selection import SelectKBest, f_regression
+
+selector = SelectKBest(score_func=f_regression, k=5)
+X_selected = selector.fit_transform(X, y)
+```
+Selects top 5 features most related to the target using ANOVA F-test.
+
+### 2. Standardization
+```python
+from sklearn.preprocessing import StandardScaler
+
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X_selected)
+```
+Ensures features are on the same scale (mean=0, std=1).
+
+---
+
+## Model Training
+
+### Linear Regression
+```python
+from sklearn.linear_model import LinearRegression
+
+model = LinearRegression()
+model.fit(X_train, y_train)
+```
+
+---
+
+## Model Evaluation
+
+### Mean Squared Error (MSE) and R² Score
+```python
+from sklearn.metrics import mean_squared_error, r2_score
+
+mse = mean_squared_error(y_test, y_pred)
+r2 = r2_score(y_test, y_pred)
+print(f"Mean Squared Error: {mse:.2f}")
+print(f"R² Score: {r2:.2f}")
+```
+- **MSE**: Measures average squared error between predicted and actual values
+- **R² Score**: Measures model’s explanatory power
+
+---
+
+## Visualizations
+
+### 1. Predictions vs Actual
+```python
+import matplotlib.pyplot as plt
+
+plt.scatter(y_test, y_pred)
+plt.xlabel("True Values")
+plt.ylabel("Predictions")
+plt.title("True vs Predicted Values")
+plt.show()
+```
+
+### 2. Pairplot with Target
+```python
+import seaborn as sns
+
+sns.pairplot(df, hue='target')
+plt.show()
+```
+
