@@ -1,0 +1,147 @@
+# 📘 Day 10: Supervised Learning - Classification with KNN
+
+## 🧠 Theory
+
+### What is Supervised Learning?
+
+Supervised learning is one of the most common approaches in machine learning, where we have input-output pairs (labeled data). The model learns from these pairs during training to predict the output for unseen inputs.
+
+- **Training Data**: Data that includes both the input and the correct output.
+- **Test Data**: New data that the model has never seen before, used to evaluate the model's performance.
+
+The model in supervised learning works by finding patterns in the data that correlate the input variables (features) with the output labels (targets).
+
+### Types of Supervised Learning:
+
+1. **Classification**: The task where the model predicts discrete labels (categories). 
+    - **Example**: Spam email classification (spam or not spam).
+    - Common algorithms: KNN, Decision Trees, SVM, Random Forest, etc.
+  
+2. **Regression**: The task where the model predicts continuous numeric values.
+    - **Example**: Predicting house prices based on features like size, location, etc.
+    - Common algorithms: Linear Regression, SVR, Decision Trees (for regression), etc.
+
+### Classification vs Regression
+
+| Criteria             | Classification                            | Regression                             |
+|----------------------|-------------------------------------------|----------------------------------------|
+| **Output Type**       | Discrete labels (e.g., classes)          | Continuous values (e.g., real numbers) |
+| **Goal**              | Assign a label to an input               | Predict a numeric value                |
+| **Examples**          | Predicting spam or not spam              | Predicting house prices                |
+| **Algorithms Used**   | KNN, Logistic Regression, SVM, Naive Bayes | Linear Regression, SVR, Decision Trees |
+| **Evaluation Metrics**| Accuracy, Precision, Recall, F1 Score    | MSE, RMSE, R² Score                    |
+
+### Why Use K-Nearest Neighbors (KNN)?
+
+KNN is a simple yet effective algorithm used for classification and regression. It works by finding the 'k' nearest data points to a given test point, then assigning the most common class (for classification) or averaging the values (for regression).
+
+#### Advantages of KNN:
+- Simple to implement and easy to understand.
+- No training phase: KNN is a "lazy" learner, meaning it doesn't learn a model during training, it only memorizes the training data.
+- Works well for both classification and regression tasks.
+
+#### Disadvantages of KNN:
+- **Computationally expensive**: Since it requires calculating distances to all training points for each prediction, it can be slow with large datasets.
+- **Sensitive to irrelevant features**: If features are not normalized or irrelevant, it can impact performance.
+- **Curse of dimensionality**: As the number of features increases, KNN performance can degrade.
+
+---
+
+## 🧪 Practical Implementation
+
+### Loading and Preparing the Data
+
+We used the **Iris dataset**, which is a classic dataset for classification tasks. It contains 150 observations with 4 features: sepal length, sepal width, petal length, and petal width. There are three classes: Setosa, Versicolor, and Virginica.
+
+```python
+# Load dataset
+load_iris = load_iris()
+X = load_iris.data  # Features
+y = load_iris.target  # Target (species)
+```
+
+### Splitting the Data
+
+We split the dataset into training and test sets using `train_test_split` from scikit-learn. This ensures that the model is trained on one portion of the data and tested on a completely unseen portion.
+
+```python
+# Split data into training and test sets
+x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+```
+
+### Model Training: K-Nearest Neighbors
+
+We initialized a KNN classifier with `k=3` and trained it on the training data. The `k` parameter represents the number of nearest neighbors we will consider for classification.
+
+```python
+# Initialize the model
+knn = KNeighborsClassifier(n_neighbors=3)
+
+# Train the model
+knn.fit(x_train, y_train)
+```
+
+### Predictions and Evaluation
+
+We used the trained model to predict the species of the test data. Then, we evaluated the model using several metrics such as accuracy, confusion matrix, precision, recall, and F1-score.
+
+```python
+# Predicting the labels for the test data
+y_pred = knn.predict(x_test)
+
+# Evaluate the model
+print("Predicted labels:", y_pred)
+print("True labels:", y_test)
+print("Accuracy:", accuracy_score(y_test, y_pred))
+print("Classification report:\n", classification_report(y_test, y_pred))
+print("Confusion matrix:\n", confusion_matrix(y_test, y_pred))
+print("Recall:", recall_score(y_test, y_pred, average='weighted'))
+print("Precision:", precision_score(y_test, y_pred, average='weighted'))
+print("F1 score:", f1_score(y_test, y_pred, average='weighted'))
+```
+
+### Evaluation Metrics Explained
+
+- **Accuracy**: The proportion of correct predictions out of all predictions.
+- **Confusion Matrix**: A table showing the number of correct and incorrect predictions for each class.
+- **Precision**: The ratio of true positive predictions to the total positive predictions. High precision means fewer false positives.
+- **Recall**: The ratio of true positive predictions to the total actual positives. High recall means fewer false negatives.
+- **F1 Score**: The harmonic mean of precision and recall. It balances the two and is useful when you need to account for both false positives and false negatives.
+
+### Output Example:
+
+```text
+Predicted labels: [0 1 1 0 2 1 2 0 1 2]
+True labels: [0 1 2 0 2 1 2 0 1 2]
+Accuracy: 1.0
+Classification report:
+               precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00         10
+           1       1.00      1.00      1.00         10
+           2       1.00      1.00      1.00         10
+
+    accuracy                           1.00         30
+   macro avg       1.00      1.00      1.00         30
+weighted avg       1.00      1.00      1.00         30
+
+Confusion matrix:
+ [[10  0  0]
+ [ 0 10  0]
+ [ 0  0 10]]
+
+Recall: 1.0
+Precision: 1.0
+F1 score: 1.0
+```
+
+As we can see from the results, the KNN classifier has achieved perfect accuracy on this dataset, which is common with simple datasets like Iris.
+
+---
+
+## 📌 Summary
+
+### Key Takeaways:
+- **K-Nearest Neighbors** is a versatile algorithm that can be used for both classification and regression tasks.
+- It's important to understand the difference between **classification** and **regression** and how they are evaluated.
+- We evaluated the KNN model using various metrics like accuracy, precision, recall, F1-score, and confusion matrix to get a complete picture of the model's performance.
